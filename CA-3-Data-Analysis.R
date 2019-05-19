@@ -4,8 +4,10 @@ install.packages("RCurl")
 library(RCurl)
 
 
+
+
 # Loadind data
-getwd()
+
 Unemployment_data <- read.csv('data.csv', skip = 4)
 head(Unemployment_data, 36)
 
