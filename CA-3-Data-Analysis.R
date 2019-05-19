@@ -113,15 +113,11 @@ histogram(~Crime_rate | Unemployment_rate_greater_than_12, data = Crime_Unemploy
 
 
 # Compare the quantiles of both samples using QQ plot 
-with(Crime_Unemployment_rate,
-     qqplot(Crime_rate[Unemployment_rate_greater_than_12 == "Low"],
-            Crime_rate[Unemployment_rate_greater_than_12 == "High"], 
-            main = "Comparing Crime Rate and Unemployment Rate", 
-            xlab = "Unemployment_rate_greater_than_12 Crime_rate = Low",
-            ylab =  "Unemployment_rate_greater_than_12 Crime_rate = High"))
 with(Crime_Unemployment_rate, {
   qqnorm(Crime_rate[Unemployment_rate_greater_than_12 == "Low"], 
-         main = "Comparision between Crime Rate and Unemployment rate")
+         main = "Comparision between Crime Rate and Unemployment rate",
+         xlab = "Unemployment_rate_greater_than_12",
+         ylab =  "Crime_rate")
 })
 
 # Adding normailty line 
@@ -129,8 +125,10 @@ with(Crime_Unemployment_rate, {
 # for Unemployment is less than 12 = Low
 with(Crime_Unemployment_rate, {
   qqnorm(Crime_rate[Unemployment_rate_greater_than_12 == "Low"], 
-         main = "Unemployment is less than 12")
-  qqline(Crime_rate[Unemployment_rate_greater_than_12 == "Low"])
+         main = "Unemployment is less than 12", xlab = "Unemployment_rate_greater_than_12",
+         ylab =  "Crime_rate")
+  qqline(Crime_rate[Unemployment_rate_greater_than_12 == "Low"],
+         )
 })
 
 # Adding normailty line 
@@ -138,7 +136,9 @@ with(Crime_Unemployment_rate, {
 # for Unemployment is greater than 12 = High
 with(Crime_Unemployment_rate, {
   qqnorm(Crime_rate[Unemployment_rate_greater_than_12 == "High"], 
-         main = "Unemployment rate is greater than 12")
+         main = "Unemployment rate is greater than 12",
+         xlab = "Unemployment_rate_greater_than_12",
+         ylab =  "Crime_rate")
   qqline(Crime_rate[Unemployment_rate_greater_than_12 == "High"])
 })
 
