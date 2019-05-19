@@ -1,5 +1,11 @@
 
-setwd("C:/Users/akki2/Documents")
+
+install.packages("RCurl")
+library(RCurl)
+
+
+# Loadind data
+getwd()
 Unemployment_data <- read.csv('data.csv', skip = 4)
 head(Unemployment_data, 36)
 
@@ -93,15 +99,48 @@ head(Crime_Unemployment_rate)
 Crime_Unemployment_rate$Unemployment_rate_greater_than_12 <- ifelse(Crime_Unemployment_rate$Unemployment_Rate > 12,
                                                                     "High", "Low")
 
-# Compute summary statistics by groups:
-
-
-
 # Visualize data using box plots
 ggboxplot(Crime_Unemployment_rate, x = "Unemployment_rate_greater_than_12",
           y="Crime_rate",palette=c("#00AFBB","#E7B800"),ylab = "Crime_rate", xlab = "Unemployment rate greater than 12",
           color = "red", fill = "green")
 
+
+install.packages("lattice")
+library(lattice)
+
+# Applying histogram to represents the frequencies of values of crime rate bucketed into ranges
+histogram(~Crime_rate | Unemployment_rate_greater_than_12, data = Crime_Unemployment_rate)
+
+
+# Compare the quantiles of both samples using QQ plot 
+with(Crime_Unemployment_rate,
+     qqplot(Crime_rate[Unemployment_rate_greater_than_12 == "Low"],
+            Crime_rate[Unemployment_rate_greater_than_12 == "High"], 
+            main = "Comparing Crime Rate and Unemployment Rate", 
+            xlab = "Unemployment_rate_greater_than_12 Crime_rate = Low",
+            ylab =  "Unemployment_rate_greater_than_12 Crime_rate = High"))
+with(Crime_Unemployment_rate, {
+  qqnorm(Crime_rate[Unemployment_rate_greater_than_12 == "Low"], 
+         main = "Comparision between Crime Rate and Unemployment rate")
+})
+
+# Adding normailty line 
+# to the plot to evaluate normality
+# for Unemployment is less than 12 = Low
+with(Crime_Unemployment_rate, {
+  qqnorm(Crime_rate[Unemployment_rate_greater_than_12 == "Low"], 
+         main = "Unemployment is less than 12")
+  qqline(Crime_rate[Unemployment_rate_greater_than_12 == "Low"])
+})
+
+# Adding normailty line 
+# to the plot to evaluate normality
+# for Unemployment is greater than 12 = High
+with(Crime_Unemployment_rate, {
+  qqnorm(Crime_rate[Unemployment_rate_greater_than_12 == "High"], 
+         main = "Unemployment rate is greater than 12")
+  qqline(Crime_rate[Unemployment_rate_greater_than_12 == "High"])
+})
 
 # Shapiro-Wilk normality test for Rate of Crime
 shapiro.test(Crime_Unemployment_rate$Crime_rate)# p = 7.266e-06
@@ -156,5 +195,8 @@ conf.level
 
 # Our study finds that crime rate is increased when Unemployment is greater than 12 
 
-getwd()
+########################################################
+
+
+
 
